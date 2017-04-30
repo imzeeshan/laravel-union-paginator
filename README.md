@@ -1,4 +1,9 @@
-# laravel-union-paginator
+<!--
+  Title: laravel union queries paginator
+  Description: simple paginator class add ability to paginate laravel union queries.
+  Author: Saeed Matar (SMATAR)
+  -->
+# laravel union queries paginator
 
 simple paginator class add ability to paginate laravel union queries.
 
