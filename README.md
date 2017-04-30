@@ -18,7 +18,7 @@ $users = DB::table('users')
             ->whereNull('last_name')
             ->union($first);
 
-$page = 1;
+$page = $request->get('page')?:1;
 
 $paginator = Paginator::setQuery($users)->setCurrentPage($page)->setPerPage(15);
 
