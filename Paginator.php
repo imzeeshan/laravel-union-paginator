@@ -2,6 +2,8 @@
 
 namespace App\Libs;
 
+use Illuminate\Support\Facades\Request;
+
 class Paginator
 {
     public $query;
@@ -10,6 +12,7 @@ class Paginator
     public $pageName;
     public $currentPage;
     public $url;
+    public $parameters;
 
 
     function __construct()
@@ -19,7 +22,8 @@ class Paginator
         $this->pageName = 'page';
         $this->total = 0;
         $this->currentPage = 1;
-        $this->url = url()->current();
+        $this->url = Request::url();
+        $this->parameters = Request::query();
     }
 
     public function setPerPage($perPage)
@@ -88,7 +92,7 @@ class Paginator
     {
         $pagesCount = ceil($this->total / $this->perPage);
 
-        if ($pagesCount == 1) {
+        if ($pagesCount == 1 || $pagesCount == 0) {
             return '';
         }
 
@@ -97,9 +101,12 @@ class Paginator
 
         $li = '';
 
+        $parameters = $this->parameters;
+
         //show previous
         if ($this->currentPage != 1) {
-            $url = $this->url . '?' . $this->pageName . '=' . ($this->currentPage - 1);
+            $parameters[$this->pageName] = ($this->currentPage - 1);
+            $url = $this->url . '?' . http_build_query($parameters, '', '&');
 
             $li .= '<li><a href="' . $url . '">&lt;</a></li>';
         }
@@ -108,14 +115,18 @@ class Paginator
         for ($i = 1; $i <= $pagesCount; $i++) {
             $active = $this->currentPage == $i ? 'active' : '';
 
-            $url = $this->currentPage == $i ? '#' : ($this->url . '?' . $this->pageName . '=' . $i);
+            $parameters[$this->pageName] = $i;
+
+            $url = $this->currentPage == $i ? '#' : ($this->url . '?' . http_build_query($parameters, '', '&'));
 
             $li .= '<li class="' . $active . '"><a href="' . $url . '">' . $i . '</a></li>';
         }
 
         //show next
         if ($this->currentPage != $pagesCount) {
-            $url = $this->url . '?' . $this->pageName . '=' . ($this->currentPage + 1);
+            $parameters[$this->pageName] = ($this->currentPage + 1);
+
+            $url = $this->url . '?' . http_build_query($parameters, '', '&');
 
             $li .= '<li><a href="' . $url . '">&gt;</a></li>';
         }
