@@ -3,9 +3,9 @@
   Description: simple paginator class add ability to paginate laravel union queries.
   Author: Saeed Matar (SMATAR)
   -->
-# laravel union queries paginator
+# Laravel Union Queries Paginator
 
-simple paginator class add ability to paginate laravel union queries.
+Simple paginator class adds the ability to paginate Laravel union queries.
 
 # Instruction of use
 you can use laravel facades to call Paginator class.
